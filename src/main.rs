@@ -17,8 +17,20 @@ struct Article {
 }
 
 impl SQLStatements<usize> for Article {
+    // fn insert(&self) -> String {
+    //     let mut query_builder: QueryBuilder<Postgres> = 
+    //         QueryBuilder::new("INSERT INTO articles (title, content, published_date)");
+    //
+    //     query_builder.push_values([self], |mut b, article| {
+    //         b.push_bind(article.title.clone())
+    //             .push_bind(article.content.clone())
+    //             .push_bind(article.published_date.clone());
+    //     });
+    //     query_builder.into_sql()
+    // }
+
     fn insert(&self) -> String {
-        let mut query_builder: QueryBuilder<Postgres> = 
+        let mut query_builder: QueryBuilder<Postgres> =
             QueryBuilder::new("INSERT INTO articles (title, content, published_date)");
 
         query_builder.push_values([self], |mut b, article| {
@@ -27,7 +39,8 @@ impl SQLStatements<usize> for Article {
                 .push_bind(article.published_date.clone());
         });
         query_builder.into_sql()
-    }
+}
+
 
     fn select(key: usize) -> String {
         format!(
